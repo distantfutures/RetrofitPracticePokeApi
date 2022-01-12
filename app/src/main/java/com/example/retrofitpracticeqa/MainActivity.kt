@@ -29,22 +29,14 @@ class MainActivity : AppCompatActivity() {
             val response = api.getAnswersCall()
             if (response.isSuccessful) {
                 var listOfAnswers = response.body()
-                var arraySize = listOfAnswers?.answers?.size
-                Log.i("Response", "Array Size$arraySize")
-//                for (i in 0 until arraySize!!) {
-//                    val tempAnswer = listOfAnswers?.answers?.get(i)?.answer
-//                    Log.i("I/CheckAssign", "Answer: XX $tempAnswer")
-//                    val tempDetail = listOfAnswers?.answers?.get(i)?.details
-//                    Log.i("I/CheckAssign", "Detail: XX $tempDetail")
-//                    val temp = Answer(tempAnswer!!, tempDetail!!)
-//                    Log.i("I/CheckTemp", "Detail: XX $temp")
-//                    answersList.add(temp)
-//                    Log.i("I/CheckAdd", "ANSWERS LIST: $answersList")
-//                }
 
-//                for (answers in response.body()!!) {
-//                    Log.i("Response", answers.answer)
-//                }
+                var arraySize = listOfAnswers?.answers?.size
+                Log.i("Response", "Array Size: $arraySize")
+
+                for (answers in listOfAnswers?.answers!!) {
+                    Log.i("Response", "Answer: ${answers.answer}")
+                    Log.i("Response", "Detail: ${answers.details}")
+                }
             }
         }
     }
