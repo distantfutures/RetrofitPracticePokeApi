@@ -21,14 +21,14 @@ class MainActivity : AppCompatActivity() {
             if (response.isSuccessful) {
                 Log.i("Response", "Success!")
                 val listOfPokemon = response.body()
-                Log.i("Response", "$listOfPokemon")
                 val arraySize = listOfPokemon?.results?.size
-                Log.i("Response", "Array Size: $arraySize")
-                Log.i("Response", "Pokemon List: ${listOfPokemon?.results}")
+                Log.i("ResponseArraySize", "Array Size: $arraySize")
+                Log.i("ResponseListResults", "Pokemon List: ${listOfPokemon?.results}")
                 
                 for (pokemon in listOfPokemon?.results!!) {
-                    Log.i("Response", "Results: ${listOfPokemon.results}")
-                    Log.i("Response", "Name: ${listOfPokemon.results.get(1).name}")
+                    Log.i("Response", "Pokemon Object: $pokemon")
+                    Log.i("Response", "Pokemon Name: ${pokemon.name}")
+                    Log.i("Response", "Pokemon Url: ${pokemon.url}")
                 }
             } else {
                 Log.i("Response", "Failed")
