@@ -1,4 +1,4 @@
-package com.example.retrofitpracticeqa
+package com.example.retrofitpracticepokeapi
 
 import org.junit.Test
 

@@ -1,16 +1,14 @@
-package com.example.retrofitpracticeqa
+package com.example.retrofitpracticepokeapi
 
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.retrofitpracticeqa.network.AnswersApi
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import com.example.retrofitpracticepokeapi.network.PokemonApi
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 private const val BASE_URL = "https://raw.githubusercontent.com/"
 
@@ -19,39 +17,29 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val coroutineScope = CoroutineScope(Dispatchers.IO)
+
         val textView = findViewById<TextView>(R.id.text_view)
         val answer: MutableList<String> = ArrayList()
         val detail: MutableList<String> = ArrayList()
 
-        val api = Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(CoroutineCallAdapterFactory())
-            .baseUrl(BASE_URL)
-            .build()
-            .create(AnswersApi::class.java)
-
-        GlobalScope.launch(Dispatchers.IO) {
-            val response = api.getAnswersCall()
+        coroutineScope.launch {
+            val response = PokemonApi.retrofitService.getPokedexList()
             if (response.isSuccessful) {
-                var listOfAnswers = response.body()
-
-                var arraySize = listOfAnswers?.answers?.size
+                Log.i("Response", "Success!")
+                val listOfPokemon = response.body()
+                Log.i("Response", "$listOfPokemon")
+                val arraySize = listOfPokemon?.results?.size
                 Log.i("Response", "Array Size: $arraySize")
-
-                for (answers in listOfAnswers?.answers!!) {
-                    Log.i("Response", "Answer: ${answers.answer}")
-                    Log.i("Response", "Detail: ${answers.details}")
-                    answer.add(answers.answer)
-                    detail.add(answers.details)
-                }
+                Log.i("Response", "Pokemon List: ${listOfPokemon?.results}")
+//                for (pokemon in listOfPokemon?.results!!) {
+//                    Log.i("Response", "Results: ${listOfPokemon.results}")
+//                    Log.i("Response", "Name: ${listOfPokemon.results.get(1).name}")
+//                }
+            } else {
+                Log.i("Response", "Failed")
             }
-            Log.i("Add", "Answer: $answer")
-            Log.i("Add", "Detail: $detail")
         }
-        Log.i("End", "Answer: $answer")
-        Log.i("End", "Detail: $detail")
-
-        textView.setText("Answer: ${answer} \n Detail: ${detail} \n \n")
     }
 }
 
