@@ -1,4 +1,4 @@
-package com.example.retrofitpracticeqa.answerslist
+package com.example.retrofitpracticepokeapi.answerslist
 
 import androidx.lifecycle.ViewModel
 
