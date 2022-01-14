@@ -1,5 +1,8 @@
 package com.example.retrofitpracticepokeapi.network
 
-data class Pokemon(
-    var answers: ArrayList<Answer>
+import com.google.gson.annotations.SerializedName
+
+data class PokemonList(
+    //@SerializedName("Pokemon")
+    val results: ArrayList<Pokemon>
 )
