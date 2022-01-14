@@ -1,4 +1,4 @@
-package com.example.retrofitpracticeqa.network
+package com.example.retrofitpracticepokeapi.network
 
 data class Answer(
     val answer: String,
