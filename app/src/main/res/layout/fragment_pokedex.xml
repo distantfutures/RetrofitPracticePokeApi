@@ -14,12 +14,18 @@
         android:layout_height="match_parent"
         tools:context="com.example.retrofitpracticepokeapi.answerslist.PokedexFragment" >
 
+        <TextView
+            android:id="@+id/pokemon_list"
+            android:text="@{viewModel.pokemonList}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <!--
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/pokemon_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:itemCount="16"
-            app:listData="@{viewModel.pokemonList}" />
+            app:listData="@{viewModel.pokemonList}" /> -->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
