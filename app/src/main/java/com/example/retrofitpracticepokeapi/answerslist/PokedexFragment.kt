@@ -34,7 +34,7 @@ class PokedexFragment : Fragment() {
 
         // Giving the binding access to the OverviewViewModel
         binding.viewModel = viewModel
-        
+
         // Learn Adapters
         //binding.pokemonList.adapter = PokemonListAdapter(viewModel)
 

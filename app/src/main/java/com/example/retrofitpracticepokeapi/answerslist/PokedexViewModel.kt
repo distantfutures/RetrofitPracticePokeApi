@@ -37,13 +37,19 @@ class PokedexViewModel : ViewModel() {
                 Log.i("ResponseArraySize", "Array Size: $arraySize")
                 Log.i("ResponseListResults", "Pokemon List: ${listOfPokemon?.results}")
 
-                _pokemonList.value = listOfPokemon?.results?.get(1).toString()
+                _pokemonList.value = listOfPokemon?.results?.toString()
 
-                for (pokemon in listOfPokemon?.results!!) {
-                    Log.i("Response", "Pokemon Object: $pokemon")
-                    Log.i("Response", "Pokemon Name: ${pokemon.name}")
-                    Log.i("Response", "Pokemon Url: ${pokemon.url}")
+                //Prints Pokemon Object
+                for (i in 0 until listOfPokemon?.results?.size!!) {
+                    Log.i("Response", "Pokemon: ${listOfPokemon.results.get(i)}")
                 }
+                
+                // Prints Pokemon Name & URL
+//                for (pokemon in listOfPokemon?.results!!) {
+//                    Log.i("Response", "Pokemon Object: $pokemon")
+//                    Log.i("Response", "Pokemon Name: ${pokemon.name}")
+//                    Log.i("Response", "Pokemon Url: ${pokemon.url}")
+//                }
             } else {
                 Log.i("Response", "Failed")
             }
