@@ -35,8 +35,16 @@ class PokedexFragment : Fragment() {
         // Giving the binding access to the OverviewViewModel
         binding.viewModel = viewModel
 
-        // Learn Adapters
-        //binding.pokemonList.adapter = PokemonListAdapter(viewModel)
+        // Adapter implementation
+        val adapterPokemonList =
+            viewModel.pokemonList.observe(
+                viewLifecycleOwner,
+                Observer { pokemon ->
+                    pokemon?.let {
+                        binding.pokemonList.adapter = PokemonListAdapter(pokemon)
+                    }
+                }
+            )
 
         return binding.root
     }

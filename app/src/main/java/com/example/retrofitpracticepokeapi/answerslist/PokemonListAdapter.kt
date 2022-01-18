@@ -1,32 +1,44 @@
 package com.example.retrofitpracticepokeapi.answerslist
 
-import android.content.Context
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.example.retrofitpracticepokeapi.R
+import com.example.retrofitpracticepokeapi.network.Pokemon
+import com.example.retrofitpracticepokeapi.network.PokemonList
 
-class PokemonListAdapter(context: Context) : BaseAdapter() {
+class PokemonListAdapter(pokemon: PokemonList) : RecyclerView.Adapter<PokemonListAdapter.ViewHolder>() {
 
-    private val mContext: Context
+    // Create a variable that holds a list of data
+    var pokeList = pokemon
 
-    init {
-        mContext = context
-    }
-    override fun getCount(): Int {
-        return 151
-    }
+//        set(value) {
+//            field = value
+//            notifyDataSetChanged()
+//        }
 
-    override fun getItem(p0: Int): Any {
-        return "TEST STRING"
-    }
+    override fun getItemCount(): Int = pokeList.results.size
 
-    override fun getItemId(p0: Int): Long {
-        return p0.toLong()
-    }
-
-    override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
-        return TextView(mContext)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.pokemon_list_item_view, parent, false)
+        return ViewHolder(view)
     }
 
+    override fun onBindViewHolder(
+        holder: ViewHolder,
+        position: Int
+    ) {
+        val item = pokeList.results[position]
+        holder.pokemonName.text = item.name
+        holder.pokemonImageUrl.text = item.url
+        Log.i("ResponseAdapter", "pokeList: ${pokeList.results.size}")
+    }
+
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val pokemonName: TextView = itemView.findViewById(R.id.pokemon_name)
+        val pokemonImageUrl: TextView = itemView.findViewById(R.id.pokemon_image_url)
+    }
 }

@@ -14,8 +14,8 @@ import kotlinx.coroutines.launch
 
 class PokedexViewModel : ViewModel() {
 
-    val _pokemonList = MutableLiveData<String>()
-    val pokemonList: LiveData<String>
+    val _pokemonList = MutableLiveData<PokemonList>()
+    val pokemonList: LiveData<PokemonList>
         get() = _pokemonList
 
     private var viewModelJob = Job()
@@ -37,7 +37,7 @@ class PokedexViewModel : ViewModel() {
                 Log.i("ResponseArraySize", "Array Size: $arraySize")
                 Log.i("ResponseListResults", "Pokemon List: ${listOfPokemon?.results}")
 
-                _pokemonList.value = listOfPokemon?.results?.toString()
+                _pokemonList.value = listOfPokemon
 
                 //Prints Pokemon Object
                 for (i in 0 until listOfPokemon?.results?.size!!) {
