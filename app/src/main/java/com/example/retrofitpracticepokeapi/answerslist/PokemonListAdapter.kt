@@ -23,8 +23,7 @@ class PokemonListAdapter(pokemon: PokemonList) : RecyclerView.Adapter<PokemonLis
     override fun getItemCount(): Int = pokeList.results.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.pokemon_list_item_view, parent, false)
-        return ViewHolder(view)
+        return ViewHolder.from(parent)
     }
 
     override fun onBindViewHolder(
@@ -36,7 +35,7 @@ class PokemonListAdapter(pokemon: PokemonList) : RecyclerView.Adapter<PokemonLis
         Log.i("ResponseAdapter", "pokeList: ${pokeList.results.size}")
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder private constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val pokemonName: TextView = itemView.findViewById(R.id.pokemon_name)
         val pokemonImageUrl: TextView = itemView.findViewById(R.id.pokemon_image_url)
 
@@ -51,6 +50,13 @@ class PokemonListAdapter(pokemon: PokemonList) : RecyclerView.Adapter<PokemonLis
                 if (it.isLowerCase()) it.titlecase(
                     Locale.getDefault()
                 ) else it.toString()
+            }
+        }
+        companion object {
+            fun from(parent: ViewGroup): ViewHolder {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.pokemon_list_item_view, parent, false)
+                return ViewHolder(view)
             }
         }
     }
