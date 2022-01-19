@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.retrofitpracticepokeapi.R
-import com.example.retrofitpracticepokeapi.network.Pokemon
 import com.example.retrofitpracticepokeapi.network.PokemonList
+import java.util.*
 
 class PokemonListAdapter(pokemon: PokemonList) : RecyclerView.Adapter<PokemonListAdapter.ViewHolder>() {
 
@@ -32,7 +32,7 @@ class PokemonListAdapter(pokemon: PokemonList) : RecyclerView.Adapter<PokemonLis
         position: Int
     ) {
         val item = pokeList.results[position]
-        holder.pokemonName.text = item.name
+        holder.pokemonName.text = item.name.capitalizeWords()
         holder.pokemonImageUrl.text = item.url
         Log.i("ResponseAdapter", "pokeList: ${pokeList.results.size}")
     }
@@ -40,5 +40,13 @@ class PokemonListAdapter(pokemon: PokemonList) : RecyclerView.Adapter<PokemonLis
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val pokemonName: TextView = itemView.findViewById(R.id.pokemon_name)
         val pokemonImageUrl: TextView = itemView.findViewById(R.id.pokemon_image_url)
+    }
+
+    fun String.capitalizeWords(): String = split(" ").joinToString(" ") {
+        it.replaceFirstChar {
+            if (it.isLowerCase()) it.titlecase(
+                Locale.getDefault()
+            ) else it.toString()
+        }
     }
 }
