@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.retrofitpracticepokeapi.network.Pokemon
 import com.example.retrofitpracticepokeapi.network.PokemonApi
-import com.example.retrofitpracticepokeapi.network.PokemonList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -14,12 +13,12 @@ import kotlinx.coroutines.launch
 
 class PokedexViewModel : ViewModel() {
 
-    val _pokemonList = MutableLiveData<PokemonList>()
-    val pokemonList: LiveData<PokemonList>
-        get() = _pokemonList
-
     private var viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
+
+    private val _pokemonList = MutableLiveData<List<Pokemon>>()
+    val pokemonList: LiveData<List<Pokemon>>
+        get() = _pokemonList
 
     init {
         getPokemonList()
@@ -32,24 +31,14 @@ class PokedexViewModel : ViewModel() {
 
             if (response.isSuccessful) {
                 Log.i("Response", "Success!")
-                val listOfPokemon = response.body()
-                val arraySize = listOfPokemon?.results?.size
-                Log.i("ResponseArraySize", "Array Size: $arraySize")
-                Log.i("ResponseListResults", "Pokemon List: ${listOfPokemon?.results}")
+                val pokemonObject = response.body()
+//                val arraySize = listOfPokemon?.size
+//                Log.i("ResponseArraySize", "Array Size: $arraySize")
+                Log.i("ResponseListResults", "${pokemonObject?.results}")
 
-                _pokemonList.value = listOfPokemon
+                _pokemonList.value = pokemonObject?.results
+                Log.i("Response", "Exit list: ${_pokemonList.value}")
 
-                //Prints Pokemon Object
-                for (i in 0 until listOfPokemon?.results?.size!!) {
-                    Log.i("Response", "Pokemon: ${listOfPokemon.results.get(i)}")
-                }
-                
-                // Prints Pokemon Name & URL
-//                for (pokemon in listOfPokemon?.results!!) {
-//                    Log.i("Response", "Pokemon Object: $pokemon")
-//                    Log.i("Response", "Pokemon Name: ${pokemon.name}")
-//                    Log.i("Response", "Pokemon Url: ${pokemon.url}")
-//                }
             } else {
                 Log.i("Response", "Failed")
             }

@@ -36,14 +36,7 @@ class PokedexFragment : Fragment() {
         binding.viewModel = viewModel
 
         // Adapter implementation
-        viewModel.pokemonList.observe(
-            viewLifecycleOwner,
-            Observer { pokemon ->
-                pokemon?.let {
-                    binding.pokemonList.adapter = PokemonGridAdapter(pokemon)
-                }
-            }
-        )
+        binding.pokemonList.adapter = PokemonGridAdapter()
 
         return binding.root
     }
