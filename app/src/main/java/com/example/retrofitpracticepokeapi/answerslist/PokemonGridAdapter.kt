@@ -11,7 +11,7 @@ import com.example.retrofitpracticepokeapi.network.Pokemon
 import com.example.retrofitpracticepokeapi.network.PokemonList
 import java.util.*
 
-class PokemonListAdapter(pokemon: PokemonList) : RecyclerView.Adapter<PokemonListAdapter.ViewHolder>() {
+class PokemonGridAdapter(pokemon: PokemonList) : RecyclerView.Adapter<PokemonGridAdapter.ViewHolder>() {
 
     // Create a variable that holds a list of data
     var pokeList = pokemon
@@ -55,7 +55,7 @@ class PokemonListAdapter(pokemon: PokemonList) : RecyclerView.Adapter<PokemonLis
         companion object {
             fun from(parent: ViewGroup): ViewHolder {
                 val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.pokemon_list_item_view, parent, false)
+                    .inflate(R.layout.pokemon_grid_item_view, parent, false)
                 return ViewHolder(view)
             }
         }

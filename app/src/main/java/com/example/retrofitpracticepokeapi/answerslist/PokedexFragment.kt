@@ -40,7 +40,7 @@ class PokedexFragment : Fragment() {
             viewLifecycleOwner,
             Observer { pokemon ->
                 pokemon?.let {
-                    binding.pokemonList.adapter = PokemonListAdapter(pokemon)
+                    binding.pokemonList.adapter = PokemonGridAdapter(pokemon)
                 }
             }
         )

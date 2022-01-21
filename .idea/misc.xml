@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Andrew/AndroidStudioProjects/Exercises/Practice/RetrofitPracticePokeApi/app/src/main/res/layout/activity_main.xml" value="0.3546875" />
+        <entry key="..\:/Users/Andrew/AndroidStudioProjects/Exercises/Practice/RetrofitPracticePokeApi/app/src/main/res/layout/fragment_pokedex.xml" value="0.3546875" />
+        <entry key="..\:/Users/Andrew/AndroidStudioProjects/Exercises/Practice/RetrofitPracticePokeApi/app/src/main/res/layout/pokemon_list_item_view.xml" value="0.3546875" />
         <entry key="..\:/Users/andzh/AndroidStudioProjects/Exercises/Practice/RetrofitPracticePokeAPI/app/src/main/res/layout/activity_main.xml" value="0.24864130434782608" />
         <entry key="..\:/Users/andzh/AndroidStudioProjects/Exercises/Practice/RetrofitPracticePokeAPI/app/src/main/res/layout/fragment_pokedex.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/andzh/AndroidStudioProjects/Exercises/Practice/RetrofitPracticePokeAPI/app/src/main/res/layout/pokemon_list_item.xml" value="0.3211050724637681" />
@@ -12,7 +15,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
