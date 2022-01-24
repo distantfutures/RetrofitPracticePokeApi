@@ -22,10 +22,6 @@ class PokedexViewModel : ViewModel() {
     val pokemonList: LiveData<List<Pokemon>>
         get() = _pokemonList
 
-    private val _pokemonSprites = MutableLiveData<List<PokemonSprites>>()
-    val pokemonSprites: LiveData<List<PokemonSprites>>
-        get() = _pokemonSprites
-
     init {
         getPokemonList()
         Log.i("Response", "getPokemonList INITIALIZED")
@@ -53,14 +49,13 @@ class PokedexViewModel : ViewModel() {
         }
     }
     private fun getPokemonSprites(pokeListSize: Int?) {
-        coroutineScope.launch {
-
+        coroutineScope.launch(Dispatchers.Main) {
             for (i in 0 until pokeListSize!!) {
                 val responseSprites = PokemonApi.retrofitService.getSpritesList(i+1)
                 val spritesUrl = responseSprites.body()?.sprites
                 Log.i("ResponseSprite", "${spritesUrl}")
                 Log.i("ResponseName", "${_pokemonList.value?.get(i)?.name}")
-                _pokemonList.value?.get(i)?.url = spritesUrl?.front_default!!
+                _pokemonList.value?.get(i)?.url = spritesUrl?.newUrl!!
                 Log.i("ResponseNewUrl", "${_pokemonList.value?.get(i)?.url}")
             }
         }

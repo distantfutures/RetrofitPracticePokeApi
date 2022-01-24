@@ -1,5 +1,8 @@
 package com.example.retrofitpracticepokeapi.network
 
+import com.google.gson.annotations.SerializedName
+
 data class PokemonSprites (
-    val front_default: String
+    @SerializedName("front_default")
+    val newUrl: String
 )
