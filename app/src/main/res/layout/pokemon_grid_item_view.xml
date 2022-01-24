@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="pokemonList"
+            type="com.example.retrofitpracticepokeapi.network.Pokemon" />
+        <variable
+            name="pokemonSprites"
+            type="com.example.retrofitpracticepokeapi.network.PokemonSprites" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="14dp">
+
+        <TextView
+            android:id="@+id/pokemon_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{pokemonList.name}"
+            android:textAlignment="center"
+            android:textSize="@dimen/pokemon_name_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pokemon_image_url" />
+
+        <ImageView
+            android:id="@+id/pokemon_image_url"
+            android:layout_width="@dimen/pokemon_image_size"
+            android:layout_height="@dimen/pokemon_image_size"
+            app:imageUrl="@{pokemonList.url}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@tools:sample/avatars" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

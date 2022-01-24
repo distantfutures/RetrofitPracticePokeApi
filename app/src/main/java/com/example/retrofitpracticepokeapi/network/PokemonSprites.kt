@@ -2,7 +2,7 @@ package com.example.retrofitpracticepokeapi.network
 
 import com.google.gson.annotations.SerializedName
 
-data class PokemonList(
-    //@SerializedName("Pokemon")
-    val results: ArrayList<Pokemon>
+data class PokemonSprites (
+    @SerializedName("front_default")
+    val newUrl: String
 )

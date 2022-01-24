@@ -6,20 +6,21 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.retrofitpracticepokeapi.network.Pokemon
 import com.example.retrofitpracticepokeapi.network.PokemonApi
-import com.example.retrofitpracticepokeapi.network.PokemonList
+import com.example.retrofitpracticepokeapi.network.PokemonSprites
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 
 class PokedexViewModel : ViewModel() {
 
-    val _pokemonList = MutableLiveData<PokemonList>()
-    val pokemonList: LiveData<PokemonList>
-        get() = _pokemonList
-
     private var viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
+
+    private var _pokemonList = MutableLiveData<List<Pokemon>>()
+    val pokemonList: LiveData<List<Pokemon>>
+        get() = _pokemonList
 
     init {
         getPokemonList()
@@ -32,26 +33,30 @@ class PokedexViewModel : ViewModel() {
 
             if (response.isSuccessful) {
                 Log.i("Response", "Success!")
-                val listOfPokemon = response.body()
-                val arraySize = listOfPokemon?.results?.size
-                Log.i("ResponseArraySize", "Array Size: $arraySize")
-                Log.i("ResponseListResults", "Pokemon List: ${listOfPokemon?.results}")
+                val pokemonObject = response.body()
+                Log.i("ResponseListResults", "${pokemonObject?.results}")
+                val pokemonObjectSize = pokemonObject?.results?.size
+                Log.i("ResponseListSize", "${pokemonObjectSize}")
 
-                _pokemonList.value = listOfPokemon
+                _pokemonList.value = pokemonObject?.results
+                Log.i("Response", "Exit list: ${_pokemonList.value}")
 
-                //Prints Pokemon Object
-                for (i in 0 until listOfPokemon?.results?.size!!) {
-                    Log.i("Response", "Pokemon: ${listOfPokemon.results.get(i)}")
-                }
-                
-                // Prints Pokemon Name & URL
-//                for (pokemon in listOfPokemon?.results!!) {
-//                    Log.i("Response", "Pokemon Object: $pokemon")
-//                    Log.i("Response", "Pokemon Name: ${pokemon.name}")
-//                    Log.i("Response", "Pokemon Url: ${pokemon.url}")
-//                }
+                getPokemonSprites(pokemonObjectSize)
+
             } else {
                 Log.i("Response", "Failed")
+            }
+        }
+    }
+    private fun getPokemonSprites(pokeListSize: Int?) {
+        coroutineScope.launch(Dispatchers.Main) {
+            for (i in 0 until pokeListSize!!) {
+                val responseSprites = PokemonApi.retrofitService.getSpritesList(i+1)
+                val spritesUrl = responseSprites.body()?.sprites
+                Log.i("ResponseSprite", "${spritesUrl}")
+                Log.i("ResponseName", "${_pokemonList.value?.get(i)?.name}")
+                _pokemonList.value?.get(i)?.url = spritesUrl?.newUrl!!
+                Log.i("ResponseNewUrl", "${_pokemonList.value?.get(i)?.url}")
             }
         }
     }
