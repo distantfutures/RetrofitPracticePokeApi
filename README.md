@@ -1,4 +1,4 @@
-#RetrofitPracticePokeApi
+# RetrofitPracticePokeApi
 A simple pokedex app to practice using Retrofit, Glide, & RecyclerViews
 
 ## How It Works
