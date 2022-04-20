@@ -13,7 +13,7 @@ import com.example.retrofitpracticepokeapi.model.Pokemon
 )
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract fun reposDao(): PokemonDao
+    abstract fun pokeDao(): PokemonDao
     companion object {
 
         @Volatile

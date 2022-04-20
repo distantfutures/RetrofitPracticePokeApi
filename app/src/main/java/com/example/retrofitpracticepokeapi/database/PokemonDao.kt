@@ -12,5 +12,5 @@ interface PokemonDao {
     fun insertList(pokemon: List<Pokemon>)
 
     @Query("SELECT * FROM pokemon_table" )
-    fun getPokemonList(pokemon: List<Pokemon>): List<Pokemon>
+    fun getPokemonList(): List<Pokemon>
 }
