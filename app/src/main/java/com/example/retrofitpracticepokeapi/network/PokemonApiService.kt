@@ -1,5 +1,7 @@
 package com.example.retrofitpracticepokeapi.network
 
+import com.example.retrofitpracticepokeapi.model.Pokemon
+import com.example.retrofitpracticepokeapi.model.PokemonResponse
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -22,7 +24,7 @@ interface PokemonApiService {
     @GET("pokemon")
     suspend fun getPokedexList(
         @Query("offset") offset: Int = 0,
-        @Query("limit") limit: Int = 10
+        @Query("limit") limit: Int = 30
     ): Response<PokemonResponse>
 
     @GET("pokemon/{id}")

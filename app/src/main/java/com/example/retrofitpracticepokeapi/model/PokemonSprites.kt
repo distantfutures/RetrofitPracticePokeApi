@@ -1,4 +1,4 @@
-package com.example.retrofitpracticepokeapi.network
+package com.example.retrofitpracticepokeapi.model
 
 import com.google.gson.annotations.SerializedName
 

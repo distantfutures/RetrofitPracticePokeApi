@@ -1,4 +1,4 @@
-package com.example.retrofitpracticepokeapi.network
+package com.example.retrofitpracticepokeapi.model
 
 data class PokemonResponse(
     val count: Int,

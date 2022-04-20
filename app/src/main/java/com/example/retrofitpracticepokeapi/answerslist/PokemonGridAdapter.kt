@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.retrofitpracticepokeapi.databinding.PokemonGridItemViewBinding
-import com.example.retrofitpracticepokeapi.network.Pokemon
+import com.example.retrofitpracticepokeapi.model.Pokemon
 
 class PokemonGridAdapter() : ListAdapter<Pokemon, PokemonGridAdapter.PokemonViewHolder>(DiffCallback) {
     class PokemonViewHolder(private var binding: PokemonGridItemViewBinding) : RecyclerView.ViewHolder(binding.root) {

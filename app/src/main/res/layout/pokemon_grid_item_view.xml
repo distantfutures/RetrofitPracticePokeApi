@@ -6,10 +6,10 @@
     <data>
         <variable
             name="pokemonList"
-            type="com.example.retrofitpracticepokeapi.network.Pokemon" />
+            type="com.example.retrofitpracticepokeapi.model.Pokemon" />
         <variable
             name="pokemonSprites"
-            type="com.example.retrofitpracticepokeapi.network.PokemonSprites" />
+            type="com.example.retrofitpracticepokeapi.model.PokemonSprites" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

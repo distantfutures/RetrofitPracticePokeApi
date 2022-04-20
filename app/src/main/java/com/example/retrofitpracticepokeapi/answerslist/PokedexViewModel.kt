@@ -4,14 +4,12 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.retrofitpracticepokeapi.network.Pokemon
+import com.example.retrofitpracticepokeapi.model.Pokemon
 import com.example.retrofitpracticepokeapi.network.PokemonApi
-import com.example.retrofitpracticepokeapi.network.PokemonSprites
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import org.json.JSONObject
 
 const val TAG = "CheckVM"
 class PokedexViewModel : ViewModel() {
