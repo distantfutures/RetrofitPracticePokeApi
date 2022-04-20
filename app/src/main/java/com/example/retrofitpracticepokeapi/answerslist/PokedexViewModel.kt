@@ -13,6 +13,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
+const val TAG = "CheckVM"
 class PokedexViewModel : ViewModel() {
 
     private var viewModelJob = Job()
@@ -24,7 +25,7 @@ class PokedexViewModel : ViewModel() {
 
     init {
         getPokemonList()
-        Log.i("Response", "getPokemonList INITIALIZED")
+        Log.i(TAG, "getPokemonList INITIALIZED")
     }
 
     private fun getPokemonList() {
@@ -32,31 +33,31 @@ class PokedexViewModel : ViewModel() {
             val response = PokemonApi.retrofitService.getPokedexList()
 
             if (response.isSuccessful) {
-                Log.i("Response", "Success!")
                 val pokemonObject = response.body()
-                Log.i("ResponseListResults", "${pokemonObject?.results}")
                 val pokemonObjectSize = pokemonObject?.results?.size
-                Log.i("ResponseListSize", "${pokemonObjectSize}")
-
                 _pokemonList.value = pokemonObject?.results
-                Log.i("Response", "Exit list: ${_pokemonList.value}")
 
                 getPokemonSprites(pokemonObjectSize)
 
+                Log.i(TAG, "\nPokemon Object: ${pokemonObject?.results} \n" +
+                        "PokemonObject Size: ${pokemonObjectSize} \n" +
+                        "Exit list check: ${_pokemonList.value}\n")
+                Log.i(TAG, "Response Success!")
             } else {
-                Log.i("Response", "Failed")
+                Log.i(TAG, "Response Failed")
             }
         }
     }
     private fun getPokemonSprites(pokeListSize: Int?) {
-        coroutineScope.launch(Dispatchers.Main) {
+        coroutineScope.launch(Dispatchers.IO) {
             for (i in 0 until pokeListSize!!) {
                 val responseSprites = PokemonApi.retrofitService.getSpritesList(i+1)
                 val spritesUrl = responseSprites.body()?.sprites
-                Log.i("ResponseSprite", "${spritesUrl}")
-                Log.i("ResponseName", "${_pokemonList.value?.get(i)?.name}")
                 _pokemonList.value?.get(i)?.url = spritesUrl?.newUrl!!
-                Log.i("ResponseNewUrl", "${_pokemonList.value?.get(i)?.url}")
+
+                Log.i(TAG, "Sprites Url: ${spritesUrl} \n" +
+                        "Name: ${_pokemonList.value?.get(i)?.name} \n" +
+                        "Url: ${_pokemonList.value?.get(i)?.url} \n")
             }
         }
     }
