@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.retrofitpracticepokeapi.model.Pokemon
 import com.example.retrofitpracticepokeapi.network.PokemonApi
 import com.example.retrofitpracticepokeapi.network.PokemonApiService
@@ -25,7 +26,7 @@ class PokedexViewModel : ViewModel() {
 
     var lastRequestedOffset = LIST_OFFSET
 
-    var pokemonList: List<Pokemon>? = null
+    private var pokemonFetchList = mutableListOf<Pokemon>()
 
     private var _pokemonInfoList = MutableLiveData<List<Pokemon>>()
     val pokemonInfoList: LiveData<List<Pokemon>>
@@ -38,7 +39,7 @@ class PokedexViewModel : ViewModel() {
 
     fun requestNewList() {
         lastRequestedOffset += 20
-        pokemonList = null
+        pokemonFetchList.clear()
         getPokemonList()
     }
 
@@ -47,9 +48,10 @@ class PokedexViewModel : ViewModel() {
             val response = pokeRepo.getPokedexList(lastRequestedOffset)
             if (response.isSuccessful) {
                 val pokemonNamesList = response.body()
-                pokemonList = pokemonNamesList?.results
+                pokemonFetchList.addAll(pokemonNamesList?.results!!)
                 getPokemon()
-                Log.i(TAG, "Pokemon Object: ${pokemonNamesList}")
+//                Log.i(TAG, "Pokemon Object: ${pokemonNamesList}")
+                Log.i(TAG, "Pokemon Fetch List: ${_pokemonInfoList.value}")
                 Log.i(TAG, "Response Success!")
             } else {
                 Log.i(TAG, "Response Failed")
@@ -61,7 +63,7 @@ class PokedexViewModel : ViewModel() {
     private fun getPokemon() {
         coroutineScope.launch {
             val pokeList = mutableListOf<Pokemon>()
-            for (pokemon in pokemonList!!) {
+            for (pokemon in pokemonFetchList) {
                 val response = pokeRepo.getPokemonInfo(pokemon.name)
                 if (response.isSuccessful) {
                     val pokemonInfoObj = response.body()
@@ -73,7 +75,8 @@ class PokedexViewModel : ViewModel() {
                     Log.i(TAG, "Response Failed")
                 }
             }
-            _pokemonInfoList.value = pokeList
+            // Adds to existing list if not empty
+            _pokemonInfoList.value = _pokemonInfoList.value?.plus(pokeList) ?: pokeList
         }
     }
 }

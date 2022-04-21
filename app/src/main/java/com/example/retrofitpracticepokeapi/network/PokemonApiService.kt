@@ -22,7 +22,6 @@ private val retrofit = Retrofit.Builder()
 // Implement API service interface that return JSON data as a string (through Scalars)
 interface PokemonApiService {
     @GET("pokemon")
-    // [Find way to change offset & limits]
     suspend fun getPokedexList(
         @Query("offset") offset: Int = 0,
         @Query("limit") limit: Int = 20
