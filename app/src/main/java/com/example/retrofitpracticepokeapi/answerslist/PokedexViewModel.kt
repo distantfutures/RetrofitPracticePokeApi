@@ -21,28 +21,43 @@ class PokedexViewModel : ViewModel() {
     val pokemonList: LiveData<List<Pokemon>>
         get() = _pokemonList
 
+    private var _pokemonInfoList = MutableLiveData<List<Pokemon>>()
+    val pokemonInfoList: LiveData<List<Pokemon>>
+        get() = _pokemonInfoList
+
     init {
         getPokemonList()
+
         Log.i(TAG, "getPokemonList INITIALIZED")
+    }
+    private fun getPokemonList() {
+        coroutineScope.launch {
+            val response = PokemonApi.retrofitService.getPokedexList()
+            if (response.isSuccessful) {
+                val pokemonNamesList = response.body()
+                _pokemonList.value = pokemonNamesList?.results
+                getPokemon()
+            }
+        }
     }
 
     // Try to reduce API calls
-    private fun getPokemonList() {
+    private fun getPokemon() {
         coroutineScope.launch {
             val pokeList = mutableListOf<Pokemon>()
-            for (i in 0 until 151) {
-                val response = PokemonApi.retrofitService.getPokedexList(i)
+            for (pokemon in pokemonList.value!!) {
+                val response = PokemonApi.retrofitService.getPokemonInfo(pokemon.name)
                 if (response.isSuccessful) {
-                    val pokemonObject = response.body()
-                    pokeList.add(pokemonObject!!)
+                    val pokemonInfoResp = response.body()
+                    pokeList.add(pokemonInfoResp!!)
 
-                    Log.i(TAG, "Pokemon Object: ${pokemonObject}")
+                    Log.i(TAG, "Pokemon Object: ${pokemonInfoResp}")
                     Log.i(TAG, "Response Success!")
                 } else {
                     Log.i(TAG, "Response Failed")
                 }
             }
-            _pokemonList.value = pokeList
+            _pokemonInfoList.value = pokeList
         }
     }
 }
