@@ -14,6 +14,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 const val TAG = "CheckVM"
+const val LIST_OFFSET = 0
 class PokedexViewModel : ViewModel() {
 
     private val pokeRetrofit = PokemonApi.retrofitService
@@ -22,9 +23,9 @@ class PokedexViewModel : ViewModel() {
     private var viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
-    private var _pokemonList = MutableLiveData<List<Pokemon>>()
-    val pokemonList: LiveData<List<Pokemon>>
-        get() = _pokemonList
+    var lastRequestedOffset = LIST_OFFSET
+
+    var pokemonList: List<Pokemon>? = null
 
     private var _pokemonInfoList = MutableLiveData<List<Pokemon>>()
     val pokemonInfoList: LiveData<List<Pokemon>>
@@ -34,12 +35,19 @@ class PokedexViewModel : ViewModel() {
         getPokemonList()
         Log.i(TAG, "getPokemonList INITIALIZED")
     }
+
+    fun requestNewList() {
+        lastRequestedOffset += 20
+        pokemonList = null
+        getPokemonList()
+    }
+
     private fun getPokemonList() {
         coroutineScope.launch {
-            val response = pokeRepo.getPokedexList()
+            val response = pokeRepo.getPokedexList(lastRequestedOffset)
             if (response.isSuccessful) {
                 val pokemonNamesList = response.body()
-                _pokemonList.value = pokemonNamesList?.results
+                pokemonList = pokemonNamesList?.results
                 getPokemon()
                 Log.i(TAG, "Pokemon Object: ${pokemonNamesList}")
                 Log.i(TAG, "Response Success!")
@@ -53,7 +61,7 @@ class PokedexViewModel : ViewModel() {
     private fun getPokemon() {
         coroutineScope.launch {
             val pokeList = mutableListOf<Pokemon>()
-            for (pokemon in pokemonList.value!!) {
+            for (pokemon in pokemonList!!) {
                 val response = pokeRepo.getPokemonInfo(pokemon.name)
                 if (response.isSuccessful) {
                     val pokemonInfoObj = response.body()

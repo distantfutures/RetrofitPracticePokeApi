@@ -11,8 +11,8 @@ import retrofit2.Response
 
 class PokemonRepository(private val service: PokemonApiService) {
 
-    suspend fun getPokedexList(): Response<PokemonResponse> {
-        return service.getPokedexList()
+    suspend fun getPokedexList(offset: Int): Response<PokemonResponse> {
+        return service.getPokedexList(offset = offset)
     }
 
     suspend fun getPokemonInfo(pokemonName: String): Response<Pokemon> {
