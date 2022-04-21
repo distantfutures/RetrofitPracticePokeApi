@@ -11,7 +11,7 @@ import com.example.retrofitpracticepokeapi.model.Pokemon
 class PokemonGridAdapter() : ListAdapter<Pokemon, PokemonGridAdapter.PokemonViewHolder>(DiffCallback) {
     class PokemonViewHolder(private var binding: PokemonGridItemViewBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind (item: Pokemon) {
-            binding.pokemonList = item
+            binding.pokemonInfoList = item
             binding.executePendingBindings()
         }
     }

@@ -24,11 +24,11 @@ interface PokemonApiService {
     @GET("pokemon")
     suspend fun getPokedexList(
         @Query("offset") offset: Int = 0,
-        @Query("limit") limit: Int = 30
+        @Query("limit") limit: Int = 20
     ): Response<PokemonResponse>
 
-    @GET("pokemon/{id}")
-    suspend fun getSpritesList(@Path("id") id: Int):
+    @GET("pokemon/{name}")
+    suspend fun getPokemonInfo(@Path("name") name: String):
             Response<Pokemon>
 }
 
