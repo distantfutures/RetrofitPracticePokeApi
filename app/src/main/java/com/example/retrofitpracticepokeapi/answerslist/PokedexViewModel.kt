@@ -16,6 +16,7 @@ import kotlinx.coroutines.launch
 
 const val TAG = "CheckVM"
 const val LIST_OFFSET = 0
+const val LIST_LIMIT = 20
 class PokedexViewModel : ViewModel() {
 
     private val pokeRetrofit = PokemonApi.retrofitService
@@ -45,7 +46,7 @@ class PokedexViewModel : ViewModel() {
 
     private fun getPokemonList() {
         coroutineScope.launch {
-            val response = pokeRepo.getPokedexList(lastRequestedOffset)
+            val response = pokeRepo.getPokedexList(lastRequestedOffset, LIST_LIMIT)
             if (response.isSuccessful) {
                 val pokemonNamesList = response.body()
                 pokemonFetchList.addAll(pokemonNamesList?.results!!)
