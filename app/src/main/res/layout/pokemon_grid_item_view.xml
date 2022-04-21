@@ -32,7 +32,7 @@
             android:id="@+id/pokemon_image_url"
             android:layout_width="@dimen/pokemon_image_size"
             android:layout_height="@dimen/pokemon_image_size"
-            app:imageUrl="@{pokemonList.url}"
+            app:imageUrl="@{pokemonList.sprites.newUrl}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

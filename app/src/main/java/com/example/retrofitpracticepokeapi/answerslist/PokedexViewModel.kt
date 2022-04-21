@@ -26,37 +26,23 @@ class PokedexViewModel : ViewModel() {
         Log.i(TAG, "getPokemonList INITIALIZED")
     }
 
+    // Try to reduce API calls
     private fun getPokemonList() {
         coroutineScope.launch {
-            val response = PokemonApi.retrofitService.getPokedexList()
+            val pokeList = mutableListOf<Pokemon>()
+            for (i in 0 until 151) {
+                val response = PokemonApi.retrofitService.getPokedexList(i)
+                if (response.isSuccessful) {
+                    val pokemonObject = response.body()
+                    pokeList.add(pokemonObject!!)
 
-            if (response.isSuccessful) {
-                val pokemonObject = response.body()
-                val pokemonObjectSize = pokemonObject?.results?.size
-                _pokemonList.value = pokemonObject?.results
-
-                getPokemonSprites(pokemonObjectSize)
-
-                Log.i(TAG, "\nPokemon Object: ${pokemonObject?.results} \n" +
-                        "PokemonObject Size: ${pokemonObjectSize} \n" +
-                        "Exit list check: ${_pokemonList.value}\n")
-                Log.i(TAG, "Response Success!")
-            } else {
-                Log.i(TAG, "Response Failed")
+                    Log.i(TAG, "Pokemon Object: ${pokemonObject}")
+                    Log.i(TAG, "Response Success!")
+                } else {
+                    Log.i(TAG, "Response Failed")
+                }
             }
-        }
-    }
-    private fun getPokemonSprites(pokeListSize: Int?) {
-        coroutineScope.launch(Dispatchers.IO) {
-            for (i in 0 until pokeListSize!!) {
-                val responseSprites = PokemonApi.retrofitService.getSpritesList(i+1)
-                val spritesUrl = responseSprites.body()?.sprites
-                _pokemonList.value?.get(i)?.url = spritesUrl?.newUrl!!
-
-                Log.i(TAG, "Sprites Url: ${spritesUrl} \n" +
-                        "Name: ${_pokemonList.value?.get(i)?.name} \n" +
-                        "Url: ${_pokemonList.value?.get(i)?.url} \n")
-            }
+            _pokemonList.value = pokeList
         }
     }
 }
