@@ -21,7 +21,7 @@ import retrofit2.Response
 
 class PokemonRepository(private val service: PokemonApiService) {
 
-    fun getPokedexList(): Flow<PagingData<Pokemon>> {
+    fun getPokedexListRep(): Flow<PagingData<Pokemon>> {
         return Pager(
             config = PagingConfig(
                 pageSize = LIST_LIMIT,
@@ -31,11 +31,7 @@ class PokemonRepository(private val service: PokemonApiService) {
         ).flow
     }
 
-//    suspend fun getPokedexList(offset: Int, limit: Int): Response<PokemonResponse> {
-//        return service.getPokedexList(offset = offset, limit = limit)
-//    }
-
-    suspend fun getPokemonInfo(pokemonName: String): Response<Pokemon> {
+    suspend fun getPokemonInfoRep(pokemonName: String): Response<Pokemon> {
         return service.getPokemonInfo(pokemonName)
     }
 

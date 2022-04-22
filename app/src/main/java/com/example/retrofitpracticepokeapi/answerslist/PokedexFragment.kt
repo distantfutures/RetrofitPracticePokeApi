@@ -38,9 +38,10 @@ class PokedexFragment : Fragment() {
         // Giving the binding access to the OverviewViewModel
         binding.viewModel = viewModel
 
-        // Adapter implementation
-//        binding.pokemonList.adapter = PokemonGridAdapter()
         val adapter = PokemonGridAdapter()
+
+        // ATTACHES ADAPTER TO RECYCLER VIEW
+        binding.pokemonList.adapter = adapter
 
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             viewModel.pokemonListInfo.collectLatest {
@@ -56,7 +57,6 @@ class PokedexFragment : Fragment() {
                 }
             }
         })
-
         return binding.root
     }
 }

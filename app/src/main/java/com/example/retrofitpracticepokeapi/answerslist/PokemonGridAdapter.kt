@@ -1,5 +1,6 @@
 package com.example.retrofitpracticepokeapi.answerslist
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import com.example.retrofitpracticepokeapi.R
 import com.example.retrofitpracticepokeapi.databinding.PokemonGridItemViewBinding
 import com.example.retrofitpracticepokeapi.model.Pokemon
 
+const val GAT = "CheckAdapter"
 class PokemonGridAdapter() : PagingDataAdapter<Pokemon, PokemonGridAdapter.PokemonViewHolder>(DiffCallback) {
     class PokemonViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val pokemonName: TextView = view.findViewById(R.id.pokemon_name)
@@ -23,6 +25,7 @@ class PokemonGridAdapter() : PagingDataAdapter<Pokemon, PokemonGridAdapter.Pokem
         fun bind (pokemon: Pokemon) {
             this.pokemon = pokemon
             pokemonName.text = pokemon.name
+            Log.i(GAT, "Pokemon ADAPTER: ${pokemon.name}")
 
             val imgUrl = pokemon.sprites.newUrl
             val imgUri = imgUrl.toUri().buildUpon().scheme("https").build()
@@ -30,8 +33,6 @@ class PokemonGridAdapter() : PagingDataAdapter<Pokemon, PokemonGridAdapter.Pokem
                 .load(imgUri)
                 .into(pokemonUrl)
 
-//            binding.pokemonInfoList = item
-//            binding.executePendingBindings()
         }
     }
     companion object DiffCallback : DiffUtil.ItemCallback<Pokemon>() {
