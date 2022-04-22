@@ -1,22 +1,12 @@
 package com.example.retrofitpracticepokeapi.repository
 
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.example.retrofitpracticepokeapi.answerslist.LIST_OFFSET
-import com.example.retrofitpracticepokeapi.answerslist.TAG
 import com.example.retrofitpracticepokeapi.data.PokemonPagingSource
-import com.example.retrofitpracticepokeapi.database.PokemonDao
 import com.example.retrofitpracticepokeapi.model.Pokemon
-import com.example.retrofitpracticepokeapi.model.PokemonResponse
-import com.example.retrofitpracticepokeapi.network.PokemonApi
 import com.example.retrofitpracticepokeapi.network.PokemonApiService
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import retrofit2.Response
 
 class PokemonRepository(private val service: PokemonApiService) {
@@ -27,7 +17,7 @@ class PokemonRepository(private val service: PokemonApiService) {
                 pageSize = LIST_LIMIT,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { PokemonPagingSource(service)}
+            pagingSourceFactory = { PokemonPagingSource(service) }
         ).flow
     }
 

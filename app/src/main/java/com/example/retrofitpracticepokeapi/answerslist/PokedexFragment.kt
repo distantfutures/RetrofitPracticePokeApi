@@ -6,10 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.RecyclerView
 import com.example.retrofitpracticepokeapi.R
 import com.example.retrofitpracticepokeapi.databinding.FragmentPokedexBinding
 import kotlinx.coroutines.flow.collectLatest
@@ -48,15 +46,6 @@ class PokedexFragment : Fragment() {
                 adapter.submitData(it)
             }
         }
-
-        binding.pokemonList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                if (!binding.pokemonList.canScrollVertically(1)) {
-                    viewModel.requestNewList()
-                }
-            }
-        })
         return binding.root
     }
 }

@@ -19,6 +19,7 @@ class PokemonPagingSource(
     // Needs key of pages to be loaded & load size
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Pokemon> {
         val pageKey = params.key ?: LIST_OFFSET
+        Log.i(TAG, "paramsKey: $pageKey")
         return try {
             val pokedexResponse = service.getPokedexList(pageKey, LIST_SIZE)
             val pokemonFetchList = pokedexResponse.body()?.results
@@ -26,13 +27,17 @@ class PokemonPagingSource(
             for (pokemon in pokemonFetchList!!) {
                 val response = service.getPokemonInfo(pokemon.name)
                 pokemonInfoList.add(response.body()!!)
-                Log.i(TAG, "Each Pokemon Info: ${response.body()}")
+//                Log.i(TAG, "Each Pokemon Info: ${response.body()}")
             }
             val nextKey = if (pokemonInfoList.isEmpty()) {
                 null
             } else {
-                pageKey + (params.loadSize / LIST_SIZE)
+                pageKey + LIST_SIZE
             }
+            Log.i(TAG, "params loadSize: ${params.loadSize} \n" +
+                    "PageKey $pageKey \n" +
+                    "NextKey: ${nextKey} \n" +
+                    "ListSize: $LIST_SIZE")
             Log.i(TAG, "Pokedex Response: $pokedexResponse \n" +
                     "Pokemon Fetch List: $pokemonFetchList \n" +
                     "Pokemon Info List: $pokemonInfoList")
