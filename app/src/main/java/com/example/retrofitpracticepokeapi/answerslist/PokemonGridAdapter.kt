@@ -1,18 +1,37 @@
 package com.example.retrofitpracticepokeapi.answerslist
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.core.net.toUri
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.retrofitpracticepokeapi.R
 import com.example.retrofitpracticepokeapi.databinding.PokemonGridItemViewBinding
 import com.example.retrofitpracticepokeapi.model.Pokemon
 
-class PokemonGridAdapter() : ListAdapter<Pokemon, PokemonGridAdapter.PokemonViewHolder>(DiffCallback) {
-    class PokemonViewHolder(private var binding: PokemonGridItemViewBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind (item: Pokemon) {
-            binding.pokemonInfoList = item
-            binding.executePendingBindings()
+class PokemonGridAdapter() : PagingDataAdapter<Pokemon, PokemonGridAdapter.PokemonViewHolder>(DiffCallback) {
+    class PokemonViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        private val pokemonName: TextView = view.findViewById(R.id.pokemon_name)
+        private val pokemonUrl: ImageView = view.findViewById(R.id.pokemon_image_url)
+        private var pokemon: Pokemon? = null
+        fun bind (pokemon: Pokemon) {
+            this.pokemon = pokemon
+            pokemonName.text = pokemon.name
+
+            val imgUrl = pokemon.sprites.newUrl
+            val imgUri = imgUrl.toUri().buildUpon().scheme("https").build()
+            Glide.with(pokemonUrl.context)
+                .load(imgUri)
+                .into(pokemonUrl)
+
+//            binding.pokemonInfoList = item
+//            binding.executePendingBindings()
         }
     }
     companion object DiffCallback : DiffUtil.ItemCallback<Pokemon>() {
@@ -26,7 +45,9 @@ class PokemonGridAdapter() : ListAdapter<Pokemon, PokemonGridAdapter.PokemonView
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonViewHolder {
-        return PokemonViewHolder(PokemonGridItemViewBinding.inflate(LayoutInflater.from(parent.context)))
+        return PokemonViewHolder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.pokemon_grid_item_view, parent,false))
     }
 
     override fun onBindViewHolder(
@@ -34,6 +55,8 @@ class PokemonGridAdapter() : ListAdapter<Pokemon, PokemonGridAdapter.PokemonView
         position: Int
     ) {
         val item = getItem(position)
-        holder.bind(item)
+        if (item != null) {
+            holder.bind(item)
+        }
     }
 }

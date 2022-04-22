@@ -20,14 +20,14 @@ import kotlinx.coroutines.withContext
 import retrofit2.Response
 
 class PokemonRepository(private val service: PokemonApiService) {
-    
-    fun getPokedexList(pokemon: String): Flow<PagingData<Pokemon>> {
+
+    fun getPokedexList(): Flow<PagingData<Pokemon>> {
         return Pager(
             config = PagingConfig(
                 pageSize = LIST_LIMIT,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { PokemonPagingSource(service, pokemon)}
+            pagingSourceFactory = { PokemonPagingSource(service)}
         ).flow
     }
 

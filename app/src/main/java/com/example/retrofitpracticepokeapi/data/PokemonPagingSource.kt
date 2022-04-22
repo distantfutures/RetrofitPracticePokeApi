@@ -12,19 +12,17 @@ const val LIST_SIZE = 20
 // PagingSource takes Int b/c PokeAPI uses 20-based numbers for page offset numbers
 // Also takes Pokemon due to type of data being loaded
 class PokemonPagingSource(
-    private val service: PokemonApiService,
-    private val pokeName: String
+    private val service: PokemonApiService
 ) : PagingSource<Int, Pokemon>() {
     // Needs key of pages to be loaded & load size
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Pokemon> {
         val pageKey = params.key ?: LIST_OFFSET
-        val apiQuery = pokeName
         return try {
             val pokedexResponse = service.getPokedexList(pageKey, LIST_SIZE)
             val pokemonFetchList = pokedexResponse.body()?.results
             val pokemonInfoList = mutableListOf<Pokemon>()
-            for (name in pokemonFetchList!!) {
-                val response = service.getPokemonInfo(pokeName)
+            for (pokemon in pokemonFetchList!!) {
+                val response = service.getPokemonInfo(pokemon.name)
                 pokemonInfoList.add(response.body()!!)
             }
             val nextKey = if (pokemonInfoList.isEmpty()) {

@@ -8,9 +8,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.example.retrofitpracticepokeapi.R
 import com.example.retrofitpracticepokeapi.databinding.FragmentPokedexBinding
+import kotlinx.coroutines.flow.collectLatest
 
 class PokedexFragment : Fragment() {
     /**
@@ -37,7 +39,14 @@ class PokedexFragment : Fragment() {
         binding.viewModel = viewModel
 
         // Adapter implementation
-        binding.pokemonList.adapter = PokemonGridAdapter()
+//        binding.pokemonList.adapter = PokemonGridAdapter()
+        val adapter = PokemonGridAdapter()
+
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            viewModel.pokemonListInfo.collectLatest {
+                adapter.submitData(it)
+            }
+        }
 
         binding.pokemonList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {

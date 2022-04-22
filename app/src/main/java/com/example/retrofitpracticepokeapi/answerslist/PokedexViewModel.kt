@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
 import com.example.retrofitpracticepokeapi.model.Pokemon
 import com.example.retrofitpracticepokeapi.network.PokemonApi
 import com.example.retrofitpracticepokeapi.network.PokemonApiService
@@ -12,6 +13,7 @@ import com.example.retrofitpracticepokeapi.repository.PokemonRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 const val TAG = "CheckVM"
@@ -33,32 +35,33 @@ class PokedexViewModel : ViewModel() {
     val pokemonInfoList: LiveData<List<Pokemon>>
         get() = _pokemonInfoList
 
+    val pokemonListInfo: Flow<PagingData<Pokemon>> = pokeRepo.getPokedexList()
+
     init {
-        getPokemonList()
+//        getPokemonList()
         Log.i(TAG, "getPokemonList INITIALIZED")
     }
 
     fun requestNewList() {
         lastRequestedOffset += 20
         pokemonFetchList.clear()
-        getPokemonList()
+//        getPokemonList()
     }
 
-    private fun getPokemonList() {
-        coroutineScope.launch {
-            val response = pokeRepo.getPokedexList(lastRequestedOffset, LIST_LIMIT)
-            if (response.isSuccessful) {
-                val pokemonNamesList = response.body()
-                pokemonFetchList.addAll(pokemonNamesList?.results!!)
-                getPokemon()
-//                Log.i(TAG, "Pokemon Object: ${pokemonNamesList}")
-                Log.i(TAG, "Pokemon Fetch List: ${_pokemonInfoList.value}")
-                Log.i(TAG, "Response Success!")
-            } else {
-                Log.i(TAG, "Response Failed")
-            }
-        }
-    }
+//    private fun getPokemonList() {
+//        coroutineScope.launch {
+//            val response = pokeRepo.getPokedexList(lastRequestedOffset, LIST_LIMIT)
+//            if (response.isSuccessful) {
+//                val pokemonNamesList = response.body()
+//                pokemonFetchList.addAll(pokemonNamesList?.results!!)
+//                getPokemon()
+//                Log.i(TAG, "Pokemon Fetch List: ${_pokemonInfoList.value}")
+//                Log.i(TAG, "Response Success!")
+//            } else {
+//                Log.i(TAG, "Response Failed")
+//            }
+//        }
+//    }
 
     // Try to reduce API calls
     private fun getPokemon() {
