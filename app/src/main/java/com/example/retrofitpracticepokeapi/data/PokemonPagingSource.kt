@@ -9,8 +9,8 @@ import retrofit2.HttpException
 import java.io.IOException
 
 const val TAG = "CheckPagingSource"
-const val LIST_OFFSET = 0
-const val LIST_SIZE = 20
+//const val LIST_OFFSET = 0
+//const val LIST_SIZE = 20
 // PagingSource takes Int b/c PokeAPI uses 20-based numbers for page offset numbers
 // Also takes Pokemon due to type of data being loaded
 class PokemonPagingSource(

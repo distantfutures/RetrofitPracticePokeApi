@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.example.retrofitpracticepokeapi.Injection
 import com.example.retrofitpracticepokeapi.R
 import com.example.retrofitpracticepokeapi.databinding.FragmentPokedexBinding
 import kotlinx.coroutines.flow.collectLatest
@@ -16,8 +17,12 @@ class PokedexFragment : Fragment() {
     /**
      * Lazily initialize our [OverviewViewModel].
      */
-    private val viewModel: PokedexViewModel by lazy {
-        ViewModelProvider(this).get(PokedexViewModel::class.java)
+//    private val viewModel: PokedexViewModel by lazy {
+//        ViewModelProvider(this).get(PokedexViewModel::class.java)
+//    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+
+        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(
@@ -29,6 +34,12 @@ class PokedexFragment : Fragment() {
         val binding: FragmentPokedexBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_pokedex, container, false
         )
+
+        val viewModel = ViewModelProvider(
+            this, Injection.provideViewModelFactory(
+                context = requireContext()
+            )
+        ).get(PokedexViewModel::class.java)
 
         // Allows Data Binding to Observe LiveData with the lifecycle of this Fragment
         binding.lifecycleOwner = this

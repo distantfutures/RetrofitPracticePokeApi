@@ -9,13 +9,17 @@ import com.google.gson.annotations.SerializedName
 data class Pokemon(
     var page: Int = 0,
     @PrimaryKey
-    val name: String,
+    var name: String,
     var url: String,
     @Embedded
-    val sprites: PokemonSprites
-)
+    var sprites: PokemonSprites
+) {
+    constructor() : this(0, "pokemon", "url", PokemonSprites())
+}
 
 data class PokemonSprites (
     @SerializedName("front_default")
-    val newUrl: String
-)
+    var newUrl: String
+) {
+    constructor() : this("newUrl")
+}

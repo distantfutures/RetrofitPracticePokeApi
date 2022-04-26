@@ -4,12 +4,16 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.retrofitpracticepokeapi.data.PokemonPagingSource
+import com.example.retrofitpracticepokeapi.database.AppDatabase
 import com.example.retrofitpracticepokeapi.model.Pokemon
 import com.example.retrofitpracticepokeapi.network.PokemonApiService
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
-class PokemonRepository(private val service: PokemonApiService) {
+class PokemonRepository(
+    private val service: PokemonApiService,
+    private val appDatabase: AppDatabase
+) {
 
     fun getPokedexListRep(): Flow<PagingData<Pokemon>> {
         return Pager(

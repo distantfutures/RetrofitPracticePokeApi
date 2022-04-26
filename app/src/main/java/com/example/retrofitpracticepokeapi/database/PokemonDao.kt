@@ -1,5 +1,6 @@
 package com.example.retrofitpracticepokeapi.database
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -12,5 +13,8 @@ interface PokemonDao {
     fun insertList(pokemon: List<Pokemon>)
 
     @Query("SELECT * FROM pokemon_table" )
-    fun getPokemonList(): List<Pokemon>
+    fun getPokemonList(): PagingSource<Int, Pokemon>
+
+    @Query("DELETE FROM pokemon_table")
+    fun clearRepos()
 }
