@@ -40,6 +40,9 @@ class PokedexFragment : Fragment() {
 
         // ATTACHES ADAPTER TO RECYCLER VIEW
         binding.pokemonList.adapter = adapter
+        binding.pokemonList.adapter = adapter.withLoadStateFooter(
+            footer = LoadStateAdapter {adapter.retry()}
+        )
 
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             viewModel.pokemonListInfo.collectLatest {
